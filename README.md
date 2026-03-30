@@ -12,10 +12,8 @@
       --text: #e5e7eb;
       --muted: #94a3b8;
       --accent: #22c55e;
-      --accent-2: #38bdf8;
       --border: #334155;
       --danger: #ef4444;
-      --warning: #f59e0b;
     }
 
     * { box-sizing: border-box; }
@@ -29,7 +27,7 @@
     }
 
     .wrap {
-      max-width: 1600px;
+      max-width: 1300px;
       margin: 0 auto;
       padding: 24px;
     }
@@ -43,7 +41,7 @@
     .sub {
       color: var(--muted);
       margin-bottom: 20px;
-      max-width: 1100px;
+      max-width: 900px;
       line-height: 1.6;
     }
 
@@ -87,11 +85,11 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 16px;
     }
 
-    @media (max-width: 1200px) {
+    @media (max-width: 900px) {
       .grid { grid-template-columns: 1fr; }
     }
 
@@ -99,7 +97,6 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      min-width: 0;
     }
 
     .editor-head {
@@ -115,15 +112,9 @@
       font-size: 16px;
     }
 
-    .editor-head small {
-      color: var(--muted);
-      display: block;
-      margin-top: 4px;
-    }
-
     textarea {
       width: 100%;
-      min-height: 460px;
+      min-height: 420px;
       resize: vertical;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -155,7 +146,6 @@
     .secondary { background: #cbd5e1; color: #0f172a; }
     .ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
     .danger { background: var(--danger); color: white; }
-    .info { background: var(--accent-2); color: #082f49; }
 
     .stats {
       display: grid;
@@ -185,25 +175,6 @@
       font-weight: 700;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      border: 1px solid var(--border);
-      background: rgba(148, 163, 184, 0.08);
-      color: var(--text);
-    }
-
-    .badge.warning {
-      color: #fde68a;
-      border-color: rgba(245, 158, 11, 0.35);
-      background: rgba(245, 158, 11, 0.12);
-    }
-
     .note {
       margin-top: 18px;
       font-size: 13px;
@@ -223,8 +194,10 @@
   <div class="wrap">
     <h1>HTML NBSP Cleaner</h1>
     <div class="sub">
-      Paste plain text in the first column. The second column generates an HTML version and highlights whether it contains unnecessary
-      <code class="inline">&amp;nbsp;</code> patterns. The third column gives you cleaned HTML with unnecessary non-breaking spaces removed.
+      Paste messy HTML on the left, click <strong>Clean HTML</strong>, and copy the cleaned result from the right.
+      This tool is built to remove unnecessary <code class="inline">&amp;nbsp;</code> usage that causes awkward text wrapping,
+      while avoiding changes inside <code class="inline">pre</code>, <code class="inline">code</code>,
+      <code class="inline">script</code>, <code class="inline">style</code>, and <code class="inline">textarea</code>.
     </div>
 
     <div class="panel">
@@ -258,51 +231,34 @@
       <div class="grid">
         <div class="editor">
           <div class="editor-head">
-            <div>
-              <h2>Column 1: Plain Text</h2>
-              <small>Paste the raw content here.</small>
-            </div>
+            <h2>Input HTML</h2>
             <div class="buttons">
               <button class="ghost" id="loadSampleBtn">Load Sample</button>
               <button class="danger" id="clearBtn">Clear</button>
             </div>
           </div>
-          <textarea id="plainTextInput" placeholder="Paste plain text here..."></textarea>
+          <textarea id="inputHtml" placeholder="Paste messy HTML here..."></textarea>
         </div>
 
         <div class="editor">
           <div class="editor-head">
-            <div>
-              <h2>Column 2: Generated HTML</h2>
-              <small>Shows the HTML version and detected NBSP count.</small>
-            </div>
-            <span class="badge warning" id="detectedBadge">Detected unnecessary NBSP: 0</span>
-          </div>
-          <textarea id="generatedHtml" placeholder="Generated HTML with detected NBSP patterns will appear here..."></textarea>
-        </div>
-
-        <div class="editor">
-          <div class="editor-head">
-            <div>
-              <h2>Column 3: Clean HTML</h2>
-              <small>Clean version with unnecessary NBSP removed.</small>
-            </div>
+            <h2>Cleaned HTML</h2>
             <div class="buttons">
-              <button class="primary" id="processBtn">Process</button>
-              <button class="secondary" id="copyBtn">Copy Clean HTML</button>
+              <button class="primary" id="cleanBtn">Clean HTML</button>
+              <button class="secondary" id="copyBtn">Copy Output</button>
             </div>
           </div>
-          <textarea id="cleanHtml" placeholder="Clean HTML will appear here..."></textarea>
+          <textarea id="outputHtml" placeholder="Cleaned HTML will appear here..."></textarea>
         </div>
       </div>
 
       <div class="stats">
         <div class="stat">
-          <span class="label">NBSP in generated HTML</span>
+          <span class="label">NBSP before</span>
           <span class="value" id="nbspBefore">0</span>
         </div>
         <div class="stat">
-          <span class="label">NBSP in clean HTML</span>
+          <span class="label">NBSP after</span>
           <span class="value" id="nbspAfter">0</span>
         </div>
         <div class="stat">
@@ -312,23 +268,23 @@
       </div>
 
       <div class="note">
-        Workflow: plain text → generated HTML with NBSP issues → cleaned HTML. This makes it easier to compare what the messy HTML looks like before and after cleanup.
+        Tip: this is best for product descriptions, blog content, and CMS output where excessive non-breaking spaces were introduced by copy-paste from Word, Google Docs, PDFs, or a WYSIWYG editor.
       </div>
     </div>
   </div>
 
   <script>
     const SKIP_TAGS = new Set(["PRE", "CODE", "SCRIPT", "STYLE", "TEXTAREA"]);
-    const EMPTY_INLINE_SELECTORS = ["span", "b", "strong", "i", "em", "u", "small", "sup", "sub", "font"];
+    const EMPTY_INLINE_SELECTORS = [
+      "span", "b", "strong", "i", "em", "u", "small", "sup", "sub", "font"
+    ];
 
-    const plainTextInput = document.getElementById("plainTextInput");
-    const generatedHtml = document.getElementById("generatedHtml");
-    const cleanHtmlOutput = document.getElementById("cleanHtml");
-    const processBtn = document.getElementById("processBtn");
+    const inputHtml = document.getElementById("inputHtml");
+    const outputHtml = document.getElementById("outputHtml");
+    const cleanBtn = document.getElementById("cleanBtn");
     const copyBtn = document.getElementById("copyBtn");
     const clearBtn = document.getElementById("clearBtn");
     const loadSampleBtn = document.getElementById("loadSampleBtn");
-    const detectedBadge = document.getElementById("detectedBadge");
 
     const replaceNbsp = document.getElementById("replaceNbsp");
     const collapseRuns = document.getElementById("collapseRuns");
@@ -339,41 +295,11 @@
     const nbspAfter = document.getElementById("nbspAfter");
     const nbspRemoved = document.getElementById("nbspRemoved");
 
-    function escapeHtml(str) {
-      return str
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\"/g, "&quot;")
-        .replace(/'/g, "&#39;");
-    }
-
     function countNbsp(str) {
       if (!str) return 0;
       const entityCount = (str.match(/&nbsp;/g) || []).length;
       const charCount = (str.match(/\u00A0/g) || []).length;
       return entityCount + charCount;
-    }
-
-    function plainTextToMessyHtml(text) {
-      const normalized = text.replace(/\r\n/g, "\n");
-      const paragraphs = normalized
-        .split(/\n{2,}/)
-        .map(block => block.trim())
-        .filter(Boolean);
-
-      if (paragraphs.length === 0) return "";
-
-      return paragraphs.map(paragraph => {
-        const lines = paragraph.split("\n").map(line => line.trim()).filter(Boolean);
-        const joined = lines.join(" ");
-
-        const withFakeNbsp = escapeHtml(joined)
-          .replace(/ {2,}/g, match => "&nbsp;".repeat(match.length))
-          .replace(/([^\s]) ([^\s])/g, "$1&nbsp;$2");
-
-        return `<p>${withFakeNbsp}</p>`;
-      }).join("\n");
     }
 
     function shouldSkipNode(node) {
@@ -453,51 +379,48 @@
       nbspBefore.textContent = beforeCount;
       nbspAfter.textContent = afterCount;
       nbspRemoved.textContent = Math.max(beforeCount - afterCount, 0);
-      detectedBadge.textContent = `Detected unnecessary NBSP: ${beforeCount}`;
     }
 
-    function runProcess() {
-      const text = plainTextInput.value;
-      const messy = plainTextToMessyHtml(text);
-      const cleaned = cleanHtml(messy, {
+    function runCleaner() {
+      const raw = inputHtml.value;
+      const cleaned = cleanHtml(raw, {
         replaceNbsp: replaceNbsp.checked,
         collapseRuns: collapseRuns.checked,
         trimText: trimText.checked,
         removeEmptyInline: removeEmptyInline.checked,
       });
 
-      generatedHtml.value = messy;
-      cleanHtmlOutput.value = cleaned;
-      updateStats(messy, cleaned);
+      outputHtml.value = cleaned;
+      updateStats(raw, cleaned);
     }
 
-    processBtn.addEventListener("click", runProcess);
+    cleanBtn.addEventListener("click", runCleaner);
 
     copyBtn.addEventListener("click", async () => {
       try {
-        await navigator.clipboard.writeText(cleanHtmlOutput.value);
+        await navigator.clipboard.writeText(outputHtml.value);
         copyBtn.textContent = "Copied";
         setTimeout(() => {
-          copyBtn.textContent = "Copy Clean HTML";
+          copyBtn.textContent = "Copy Output";
         }, 1400);
       } catch (err) {
-        alert("Copy failed. Please copy the clean HTML manually.");
+        alert("Copy failed. Please copy the output manually.");
       }
     });
 
     clearBtn.addEventListener("click", () => {
-      plainTextInput.value = "";
-      generatedHtml.value = "";
-      cleanHtmlOutput.value = "";
+      inputHtml.value = "";
+      outputHtml.value = "";
       updateStats("", "");
     });
 
     loadSampleBtn.addEventListener("click", () => {
-      plainTextInput.value = `Trampilla  Doble para Piso – Receso de 1/8” para Loseta Vinílica/Alfombra\n\nLa PA-BA-FT-8040-DL ofrece una solución de perfil bajo para accesos en pisos terminados con loseta vinílica o alfombra.\n\nConsulta la ficha técnica para datos de carga, herrajes y recomendaciones de instalación.`;
-      generatedHtml.value = "";
-      cleanHtmlOutput.value = "";
-      updateStats("", "");
+      inputHtml.value = `<p>Trampilla&nbsp;&nbsp;Doble para Piso&nbsp;– Receso de 1/8" para Loseta Vinílica/Alfombra</p>\n<p>La&nbsp;PA-BA-FT-8040-DL ofrece una solución de&nbsp;&nbsp;perfil bajo para accesos en pisos terminados con loseta vinílica o alfombra.</p>\n<p>Consulta la ficha técnica para datos de carga,&nbsp;&nbsp;herrajes y recomendaciones de instalación.</p>`;
+      outputHtml.value = "";
+      updateStats(inputHtml.value, "");
     });
+
+    inputHtml.addEventListener("input", () => updateStats(inputHtml.value, outputHtml.value));
   </script>
 </body>
 </html>
