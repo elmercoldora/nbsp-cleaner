@@ -9,7 +9,6 @@
       --bg: #0f172a;
       --panel: #111827;
       --panel-2: #1f2937;
-      --panel-3: #0b1220;
       --text: #e5e7eb;
       --muted: #94a3b8;
       --accent: #22c55e;
@@ -17,16 +16,9 @@
       --border: #334155;
       --danger: #ef4444;
       --warning: #f59e0b;
-      --warning-bg: rgba(245, 158, 11, 0.18);
-      --highlight: rgba(245, 158, 11, 0.24);
     }
 
     * { box-sizing: border-box; }
-
-    html, body {
-      width: 100%;
-      min-height: 100%;
-    }
 
     body {
       margin: 0;
@@ -37,26 +29,37 @@
     }
 
     .wrap {
-      width: 100%;
-      max-width: none;
-      margin: 0;
-      padding: 10px 14px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      line-height: 1.2;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin-bottom: 20px;
+      max-width: 1100px;
+      line-height: 1.6;
     }
 
     .panel {
-      width: 100%;
-      background: rgba(17, 24, 39, 0.96);
+      background: rgba(17, 24, 39, 0.92);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 14px;
+      padding: 16px;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
     }
 
     .controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 10px;
-      margin-bottom: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .control {
@@ -78,26 +81,18 @@
 
     input[type="checkbox"] {
       margin-top: 2px;
-      transform: scale(1.05);
+      transform: scale(1.1);
       accent-color: var(--accent);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
-      gap: 12px;
-      width: 100%;
-      align-items: start;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
 
-    @media (max-width: 1280px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      .wrap {
-        padding: 10px;
-      }
+    @media (max-width: 1200px) {
+      .grid { grid-template-columns: 1fr; }
     }
 
     .editor {
@@ -110,70 +105,37 @@
     .editor-head {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     .editor-head h2 {
       margin: 0;
       font-size: 16px;
-      line-height: 1.3;
     }
 
     .editor-head small {
       color: var(--muted);
       display: block;
       margin-top: 4px;
-      line-height: 1.45;
-    }
-
-    .editor-box {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: #020617;
     }
 
     textarea {
       width: 100%;
-      min-height: 560px;
+      min-height: 460px;
       resize: vertical;
-      border: 0;
-      outline: 0;
+      border-radius: 12px;
+      border: 1px solid var(--border);
       background: #020617;
       color: #e2e8f0;
       padding: 14px;
-      font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      white-space: pre-wrap;
-      tab-size: 2;
-    }
-
-    .highlight-layer {
-      width: 100%;
-      min-height: 560px;
-      overflow: auto;
-      padding: 14px;
-      background: #020617;
-      color: #e2e8f0;
-      font: 13px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      white-space: pre-wrap;
-      word-break: break-word;
-      tab-size: 2;
-    }
-
-    .highlight-layer mark {
-      background: var(--highlight);
-      color: #fde68a;
-      padding: 0 1px;
-      border-radius: 3px;
-      box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0.2);
+      font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     }
 
     .buttons {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -193,12 +155,13 @@
     .secondary { background: #cbd5e1; color: #0f172a; }
     .ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
     .danger { background: var(--danger); color: white; }
+    .info { background: var(--accent-2); color: #082f49; }
 
     .stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 10px;
-      margin-top: 14px;
+      gap: 12px;
+      margin-top: 16px;
     }
 
     .stat {
@@ -226,7 +189,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
@@ -238,11 +201,11 @@
     .badge.warning {
       color: #fde68a;
       border-color: rgba(245, 158, 11, 0.35);
-      background: var(--warning-bg);
+      background: rgba(245, 158, 11, 0.12);
     }
 
     .note {
-      margin-top: 14px;
+      margin-top: 18px;
       font-size: 13px;
       color: var(--muted);
       line-height: 1.6;
@@ -258,6 +221,12 @@
 </head>
 <body>
   <div class="wrap">
+    <h1>HTML NBSP Cleaner</h1>
+    <div class="sub">
+      Paste plain text in the first column. The second column generates an HTML version and highlights whether it contains unnecessary
+      <code class="inline">&amp;nbsp;</code> patterns. The third column gives you cleaned HTML with unnecessary non-breaking spaces removed.
+    </div>
+
     <div class="panel">
       <div class="controls">
         <div class="control">
@@ -298,22 +267,18 @@
               <button class="danger" id="clearBtn">Clear</button>
             </div>
           </div>
-          <div class="editor-box">
-            <textarea id="plainTextInput" placeholder="Paste plain text here..."></textarea>
-          </div>
+          <textarea id="plainTextInput" placeholder="Paste plain text here..."></textarea>
         </div>
 
         <div class="editor">
           <div class="editor-head">
             <div>
               <h2>Column 2: Generated HTML</h2>
-              <small>Detected unnecessary <code class="inline">&amp;nbsp;</code> values are highlighted below.</small>
+              <small>Shows the HTML version and detected NBSP count.</small>
             </div>
             <span class="badge warning" id="detectedBadge">Detected unnecessary NBSP: 0</span>
           </div>
-          <div class="editor-box">
-            <div id="generatedHtmlHighlighted" class="highlight-layer" aria-label="Generated HTML with highlighted NBSP"></div>
-          </div>
+          <textarea id="generatedHtml" placeholder="Generated HTML with detected NBSP patterns will appear here..."></textarea>
         </div>
 
         <div class="editor">
@@ -327,9 +292,7 @@
               <button class="secondary" id="copyBtn">Copy Clean HTML</button>
             </div>
           </div>
-          <div class="editor-box">
-            <textarea id="cleanHtml" placeholder="Clean HTML will appear here..." readonly></textarea>
-          </div>
+          <textarea id="cleanHtml" placeholder="Clean HTML will appear here..."></textarea>
         </div>
       </div>
 
@@ -349,7 +312,7 @@
       </div>
 
       <div class="note">
-        Workflow: plain text → generated HTML with highlighted NBSP issues → cleaned HTML.
+        Workflow: plain text → generated HTML with NBSP issues → cleaned HTML. This makes it easier to compare what the messy HTML looks like before and after cleanup.
       </div>
     </div>
   </div>
@@ -359,7 +322,7 @@
     const EMPTY_INLINE_SELECTORS = ["span", "b", "strong", "i", "em", "u", "small", "sup", "sub", "font"];
 
     const plainTextInput = document.getElementById("plainTextInput");
-    const generatedHtmlHighlighted = document.getElementById("generatedHtmlHighlighted");
+    const generatedHtml = document.getElementById("generatedHtml");
     const cleanHtmlOutput = document.getElementById("cleanHtml");
     const processBtn = document.getElementById("processBtn");
     const copyBtn = document.getElementById("copyBtn");
@@ -402,11 +365,14 @@
       if (paragraphs.length === 0) return "";
 
       return paragraphs.map(paragraph => {
-        const lines = paragraph.split("\n").map(line => line.trimEnd()).filter(Boolean);
+        const lines = paragraph.split("\n").map(line => line.trim()).filter(Boolean);
         const joined = lines.join(" ");
-        const escaped = escapeHtml(joined);
-        const withInjectedNbsp = escaped.replace(/ {2,}/g, match => "&nbsp;".repeat(match.length));
-        return `<p>${withInjectedNbsp}</p>`;
+
+        const withFakeNbsp = escapeHtml(joined)
+          .replace(/ {2,}/g, match => "&nbsp;".repeat(match.length))
+          .replace(/([^\s]) ([^\s])/g, "$1&nbsp;$2");
+
+        return `<p>${withFakeNbsp}</p>`;
       }).join("\n");
     }
 
@@ -478,13 +444,7 @@
 
       return root.innerHTML
         .replace(/>\s+</g, "><")
-        .replace(/\n{3,}/g, "\n\n")
-        .trim();
-    }
-
-    function highlightedHtml(str) {
-      const escaped = escapeHtml(str || "");
-      return escaped.replace(/&amp;nbsp;/g, '<mark>&amp;nbsp;</mark>');
+        .replace(/\n{3,}/g, "\n\n");
     }
 
     function updateStats(before, after) {
@@ -506,7 +466,7 @@
         removeEmptyInline: removeEmptyInline.checked,
       });
 
-      generatedHtmlHighlighted.innerHTML = highlightedHtml(messy);
+      generatedHtml.value = messy;
       cleanHtmlOutput.value = cleaned;
       updateStats(messy, cleaned);
     }
@@ -527,14 +487,14 @@
 
     clearBtn.addEventListener("click", () => {
       plainTextInput.value = "";
-      generatedHtmlHighlighted.textContent = "";
+      generatedHtml.value = "";
       cleanHtmlOutput.value = "";
       updateStats("", "");
     });
 
     loadSampleBtn.addEventListener("click", () => {
       plainTextInput.value = `Trampilla  Doble para Piso – Receso de 1/8” para Loseta Vinílica/Alfombra\n\nLa PA-BA-FT-8040-DL ofrece una solución de perfil bajo para accesos en pisos terminados con loseta vinílica o alfombra.\n\nConsulta la ficha técnica para datos de carga, herrajes y recomendaciones de instalación.`;
-      generatedHtmlHighlighted.textContent = "";
+      generatedHtml.value = "";
       cleanHtmlOutput.value = "";
       updateStats("", "");
     });
